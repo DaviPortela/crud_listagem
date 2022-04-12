@@ -1,0 +1,9 @@
+header{
+    display: flexbox;
+    text-align: center;
+}
+
+#edit{
+    color: white;
+    text-decoration: none;
+}
