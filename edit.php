@@ -1,3 +1,31 @@
+<?php
+require_once 'conexao.php';
+$c = new connection("edicao", "localhost", "root", "");
+
+if (isset($_GET['id_up']))
+{
+  $id_update = addslashes($_GET['id_up']);
+  $res = $c->buscarDadosEspecificos($id_update);
+}
+
+if(isset($_POST['nome']))
+{
+  if(isset($_GET['id_up']) && !empty($_GET['id_up']))
+  {
+    $id_update = addslashes($_GET['id_up']);
+    $nome = addslashes($_POST['nome']);
+    $rua = addslashes($_POST['rua']);
+    if(!empty($nome) && !empty($rua))
+    {
+      $c->atualizarDados($id_update, $nome, $rua);
+      header("location: index.php");
+    }
+  }
+}
+
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -13,16 +41,17 @@
         <h1>Editar dados</h1>      
     </header>
     <main class="container">
-        <form>
+        <form method="POST">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Editar nome</label>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" name="nome" value="<?php if(isset($res)){echo $res['nome'];} ?>">
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Editar rua</label>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" name="rua"
+        value="<?php if(isset($res)){echo $res['rua'];} ?>">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
     </form>
     </main>
 
